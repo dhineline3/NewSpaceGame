@@ -10,6 +10,7 @@ namespace NewSpaceGame
     {
         static void Main(string[] args)
         {
+            new App().Run();
         }
     }
 }
