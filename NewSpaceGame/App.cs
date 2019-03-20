@@ -70,9 +70,9 @@ namespace NewSpaceGame
         }
         private void TravelMenu()
         {
-            var valid = false;
-
+            var done = false;
             int selector = 0;
+            int count = locations.Count;
 
             do
             {
@@ -83,12 +83,29 @@ namespace NewSpaceGame
 
                 var key = UI.ElicitInput();
 
+
                 switch (key)
                 {
-                    
+                    case ConsoleKey.DownArrow:
+                        selector++;
+                        selector %= count;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        selector--;
+                        selector = (selector + count) % count;
+                        break;
+                    case ConsoleKey.Q:
+                        done = true;
+                        break;
+                    case ConsoleKey.RightArrow:
+                    case ConsoleKey.Enter:
+                        done = true;
+                        break;
+
+
                 }
 
-            } while (!valid);
+            } while (!done);
         }
         private void PrintLocationsAndDistances(int selector)
         {
