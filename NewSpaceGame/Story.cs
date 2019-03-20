@@ -14,7 +14,7 @@ namespace NewSpaceGame
 
             Console.Clear();
             Console.WriteLine("You're the captain of a space cruiser. It's slow and honestly a piece of junk by today's standards" +
-                "\n but it is fully capable of taking you to the stars!");
+                " but it is fully \ncapable of taking you to the stars!");
             UI.ElicitInput(prompt);
 
             Console.Clear();
