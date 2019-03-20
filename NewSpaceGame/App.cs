@@ -45,7 +45,9 @@ namespace NewSpaceGame
                 PrintOptionlist();
 
                 var key = UI.ElicitInput();
-                quitReason = HandleInput(key);                
+                quitReason = HandleInput(key);
+                
+
             } while (quitReason == QuitReason.DontQuit);
 
             return quitReason;
