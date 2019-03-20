@@ -15,5 +15,18 @@ namespace NewSpaceGame
 
             return Console.ReadKey(true).Key;
         }
+        public static void Highlight()
+        {
+            var background = Console.BackgroundColor;
+            var foreground = Console.ForegroundColor;
+
+            Console.ForegroundColor = background;
+            Console.BackgroundColor = foreground;
+        }
+
+        public static void ResetColors()
+        {
+            Console.ResetColor();
+        }
     }
 }
