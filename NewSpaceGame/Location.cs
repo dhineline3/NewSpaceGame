@@ -12,10 +12,10 @@ namespace NewSpaceGame
 
         public Location(string name, string description, double xPos, double yPos)
         {
-            this.name = name;
+            this.name        = name;
             this.description = description;
-            this.xPos = xPos;
-            this.yPos = yPos;
+            this.xPos        = xPos;
+            this.yPos        = yPos;
         }
 
         public double DistanceTo(Location destination)

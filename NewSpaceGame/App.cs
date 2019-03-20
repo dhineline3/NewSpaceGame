@@ -7,7 +7,7 @@ namespace NewSpaceGame
     {
         List<Location> locations = new List<Location>();
 
-        Location currentLocation;
+        Player hero;
 
         public App()
         {
@@ -18,7 +18,7 @@ namespace NewSpaceGame
             locations.Add(new Location("Pandora", "Dangerous crime planet with no rules. Home of the vault hunters.", 2.140, 9.726));
             locations.Add(new Location("Krypton", "Shattered planet once belonging to the race known as kryptonians", 111.601, 41.222));
 
-            currentLocation = locations[0];
+            hero = new Player(locations[0]);
         }
         public void Run()
         {
@@ -36,10 +36,10 @@ namespace NewSpaceGame
             {
                 Console.Clear();
                 //Print the current location
-                Console.WriteLine($"Location: {currentLocation.name}\n");
+                Console.WriteLine($"Location: {hero.location.name}\t\tAge: {hero.age:f2} years\n");
 
                 //Print description
-                Console.WriteLine(currentLocation.description);
+                Console.WriteLine(hero.location.description);
 
                 //Provide options to the user reagarding things they can do
                 PrintOptionlist();
@@ -100,6 +100,8 @@ namespace NewSpaceGame
                     case ConsoleKey.RightArrow:
                     case ConsoleKey.Enter:
                         done = true;
+                        var warpSpeed = UI.ElicitInput("At what warp speed would you like to travel? ", 0.0, 9.5);
+                        hero.TravelTo(locations[selector], warpSpeed);
                         break;
 
 
@@ -112,7 +114,8 @@ namespace NewSpaceGame
             for (int i = 0; i < locations.Count; ++i)
             {
                 Location destination = locations[i];
-                var distance = currentLocation.DistanceTo(destination);
+
+                var distance = hero.location.DistanceTo(destination);
 
                 Console.Write($"{i + 1}. ");
 
