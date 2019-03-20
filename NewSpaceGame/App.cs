@@ -46,14 +46,37 @@ namespace NewSpaceGame
 
                 var key = UI.ElicitInput();
                 quitReason = HandleInput(key);
-                
+
+                quitReason = ShouldQuit(quitReason);
 
             } while (quitReason == QuitReason.DontQuit);
 
             return quitReason;
         }
+
+        private QuitReason ShouldQuit(QuitReason quitReason)
+        {
+
+            QuitReason AgeCheck() => hero.age >= 70 ? QuitReason.Age :
+            QuitReason.DontQuit;
+            QuitReason MoneyCheck() => hero.money < 0 ? QuitReason.OutOfMoney :
+                QuitReason.DontQuit;
+            if (quitReason == QuitReason.DontQuit)
+            {
+                quitReason = AgeCheck();
+            }
+            if (quitReason == QuitReason.DontQuit)
+            {
+                quitReason = MoneyCheck();
+            }
+
+
+            return quitReason;
+        }
+
         private void PrintOptionlist()
         {
+            Console.WriteLine();
             Console.WriteLine("1. Travel to a new location");
             Console.WriteLine("q. Quit");
         }

@@ -5,6 +5,7 @@ namespace NewSpaceGame
     internal class Player
     {
         public double age = 20;
+        public decimal money;
         public Location location;
 
         public Player(Location location)
