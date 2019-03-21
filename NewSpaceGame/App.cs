@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NewSpaceGame
 {
-    public  class App
+    public class App
     {
         List<Location> locations = new List<Location>();
 
@@ -11,12 +12,41 @@ namespace NewSpaceGame
 
         public App()
         {
-            locations.Add(new Location("Earth", "A pale blue dot, even at your close distance. The birthplace of mankind, now deserted\n", 0, 0));
-            locations.Add(new Location("Alpha Centauri 3", "The new home world of the human race, such as it is.", 0, 4.367, 0.9M));
-            locations.Add(new Location("Gazorpazorp", "The planet of I don't need no man.", 5.294, 12.004, 1.7M));
-            locations.Add(new Location("Reach", "Beautiful vacation location and hotspot for glassing.", 17.250, 34.103, 1.4M));
-            locations.Add(new Location("Pandora", "Dangerous crime planet with no rules. Home of the vault hunters.", 2.140, 9.726, 1.3M));
-            locations.Add(new Location("Krypton", "Shattered planet once belonging to the race known as kryptonians", 111.601, 41.222, 3.0M));
+            //List of all possible items available for purchase.
+            var beer = new Item("Space Beer", 1.2M);
+
+            //Different locations with corresponding items available for purchase.
+            locations.Add(new Location("Earth",
+                "A pale blue dot, even at your close distance." +
+                "The birthplace of mankind, now deserted\n",
+                0, 0,            //Distance
+                                 //Price multiplier here is 1
+                new List<Item>() { beer, })); //Items available to purchase on this system
+            locations.Add(new Location("Alpha Centauri 3",
+                "The new home world of the human race, such as it is.",
+                0, 4.367,                        
+                new List<Item>() { beer, },
+                0.9M));          //Price multiplier in relation to earth (1)
+            locations.Add(new Location("Gazorpazorp",
+                "The planet of I don't need no man.",
+                5.294, 12.004,                               
+                new List<Item>() { beer, },
+                1.7M));
+            locations.Add(new Location("Reach",
+                "Beautiful vacation location and hotspot for glassing.",
+                17.250, 34.103,                              
+                new List<Item>() { beer, },
+                1.4M));
+            locations.Add(new Location("Pandora",
+                "Dangerous crime planet with no rules. Home of the vault hunters.",
+                2.140, 9.726,                                
+                new List<Item>() { beer, },
+                1.3M));
+            locations.Add(new Location("Krypton",
+                "Shattered planet once belonging to the race known as kryptonians",
+                111.601, 41.222,                               
+                new List<Item>() { beer, },
+                3.0M));
 
             hero = new Player(locations[0]);
         }
@@ -51,6 +81,7 @@ namespace NewSpaceGame
             return quitReason;
         }
 
+        //Reasons to end game - If age > 70 || (money && goods = 0)
         private QuitReason ShouldQuit(QuitReason quitReason)
         {
 
@@ -71,30 +102,95 @@ namespace NewSpaceGame
             return quitReason;
         }
 
+        //Standard operating menu
         private void PrintOptionlist()
         {
             Console.WriteLine();
             Console.WriteLine("1. Travel to a new location");
+            Console.WriteLine("2. Buy items.");
+            Console.WriteLine("3. Sell items.");
             Console.WriteLine("q. Quit");
         }
         private QuitReason HandleInput(ConsoleKey key)
         {
-            switch(key)
+            switch (key)
             {
                 case ConsoleKey.Q:
                     return QuitReason.UserQuit;
                 case ConsoleKey.D1:
                     TravelMenu();
                     break;
+                case ConsoleKey.D2:
+                    BuyMenu();
+                    break;
+                case ConsoleKey.D3:
+                    SellMenu();
+                    break;
             }
 
             return QuitReason.DontQuit;
         }
+
+        //Main Sell menu
+        private void SellMenu()
+        {
+            Console.Clear();
+
+            if (hero.inventory.Any())
+            {
+                PrintItems(hero.inventory);
+
+                var itemIndex = UI.ElicitInput("Which item would you like to sell: ", 1, hero.inventory.Count);
+
+                if (!itemIndex.cancelled)
+                {
+                    hero.SellItem(hero.inventory[itemIndex.input - 1]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nothing to sell...");
+                UI.ElicitInput("Press any key to continue...");
+            }
+        }
+
+
+        //Main Buy menu
+        private void BuyMenu()
+        {
+
+
+
+            Console.Clear();
+
+            List<Item> items = hero.location.items;
+            PrintItems(items);
+
+            var itemIndex = UI.ElicitInput("Which item would you like to buy? ", 1, items.Count);
+
+
+            if (!itemIndex.cancelled)
+            {
+                hero.BuyItem(items[itemIndex.input - 1]);
+            }
+        }
+
+        private void PrintItems(List<Item> items)
+        {
+            for (int i = 0; i < items.Count; ++i)
+            {
+                var item = items[i];
+                var cost = hero.location.CostOf(item);
+
+                Console.WriteLine($"{i + 1}. {item.name} - {cost:f2}cr");
+            }
+        }
+        //Travel menu for different systems
         private void TravelMenu()
         {
-            var done = false;
+            var done     = false;
             int selector = 0;
-            int count = locations.Count;
+            int count    = locations.Count;
 
             do
             {
@@ -105,7 +201,7 @@ namespace NewSpaceGame
 
                 var key = UI.ElicitInput();
 
-
+                //Ability to use up and down and 'enter' to navigate system destination options
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:

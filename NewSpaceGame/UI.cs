@@ -6,12 +6,30 @@ using System.Threading.Tasks;
 
 namespace NewSpaceGame
 {
-    class UI
+    static class UI
     {
+
+        public struct IntInput
+        {
+            public int input;
+            public bool cancelled;
+
+            public IntInput(bool cancelled)
+            {
+                this.input = -1;
+                this.cancelled = true;
+            }
+            public IntInput(int input)
+            {
+                this.input = input;
+                this.cancelled = false;
+            }
+
+        }
         public static ConsoleKey ElicitInput(string prompt = "> ")
         {
             var cursorLeftPos = Console.CursorLeft;
-            var cursorTopPos = Console.CursorTop;
+            var cursorTopPos  = Console.CursorTop;
 
             Console.SetCursorPosition(0, Console.WindowHeight - 1);
             Console.Write(prompt);
@@ -27,6 +45,7 @@ namespace NewSpaceGame
             double input = 0.0;
 
             Console.WriteLine($"{prompt} (Range: [{lower:f1}, {upper:f1}))");
+
             do
             {
                 Console.Write($"> ");
@@ -45,6 +64,44 @@ namespace NewSpaceGame
 
             return input;
         }
+
+        public static IntInput ElicitInput(string prompt, int lower, int upper)
+        {
+            bool valid = false;
+            IntInput output = new IntInput();
+
+            Console.WriteLine($"{prompt}");
+
+            do
+            {
+                Console.Write($"> ");
+                try
+                {
+                    var input = Console.ReadLine();
+
+                    if (input == "q")
+                    {
+                        output = new IntInput(true);
+                        valid = true;
+                    }
+                    else
+                    {
+                        var i = int.Parse(input);
+
+                        if ((i >= lower) && (i <= upper))
+                        {
+                            output = new IntInput(i);
+                            valid = true;
+                        }
+                    }
+                }
+                catch (FormatException)
+                { }
+            } while (!valid);
+
+            return output;
+        }
+
         public static void Highlight()
         {
             var background = Console.BackgroundColor;
@@ -58,5 +115,6 @@ namespace NewSpaceGame
         {
             Console.ResetColor();
         }
+
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace NewSpaceGame
 {
-    internal class Player
+    public class Player
     {
         public double age = 20;
         public decimal money;
 
         public Location location;
-        private List<Item> inventory;
+        public List<Item> inventory = new List<Item>();
 
         public Player(Location location)
         {
