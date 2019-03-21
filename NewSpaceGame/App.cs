@@ -6,12 +6,18 @@ namespace NewSpaceGame
 {
     public class App
     {
+        Random random;
+        Events events;
+
         List<Location> locations = new List<Location>();
 
         Player hero;
 
         public App()
         {
+            random = new Random();
+            events = new Events(random);
+
             //List of all possible items available for purchase.
             var beer = new Item("Space Beer", 1.2M);
 
@@ -219,11 +225,18 @@ namespace NewSpaceGame
                     case ConsoleKey.Enter:
                         done = true;
                         var warpSpeed = UI.ElicitInput("At what warp speed would you like to travel? ", 0.0, 9.5);
+
+                        if (random.Next(0, 3) == 0)
+                        {
+                            events.SelectEvent().Present(hero);
+                        }
+
                         hero.TravelTo(locations[selector], warpSpeed);
                         break;
 
 
                 }
+
 
             } while (!done);
         }
@@ -246,5 +259,6 @@ namespace NewSpaceGame
                 UI.ResetColors();
             }
         }
+        
     }
 }
