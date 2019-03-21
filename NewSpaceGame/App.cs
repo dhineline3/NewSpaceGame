@@ -12,11 +12,11 @@ namespace NewSpaceGame
         public App()
         {
             locations.Add(new Location("Earth", "A pale blue dot, even at your close distance. The birthplace of mankind, now deserted\n", 0, 0));
-            locations.Add(new Location("Alpha Centauri 3", "The new home world of the human race, such as it is.", 0, 4.367));
-            locations.Add(new Location("Gazorpazorp", "The planet of I don't need no man.", 5.294, 12.004));
-            locations.Add(new Location("Reach", "Beautiful vacation location and hotspot for glassing.", 17.250, 34.103));
-            locations.Add(new Location("Pandora", "Dangerous crime planet with no rules. Home of the vault hunters.", 2.140, 9.726));
-            locations.Add(new Location("Krypton", "Shattered planet once belonging to the race known as kryptonians", 111.601, 41.222));
+            locations.Add(new Location("Alpha Centauri 3", "The new home world of the human race, such as it is.", 0, 4.367, 0.9M));
+            locations.Add(new Location("Gazorpazorp", "The planet of I don't need no man.", 5.294, 12.004, 1.7M));
+            locations.Add(new Location("Reach", "Beautiful vacation location and hotspot for glassing.", 17.250, 34.103, 1.4M));
+            locations.Add(new Location("Pandora", "Dangerous crime planet with no rules. Home of the vault hunters.", 2.140, 9.726, 1.3M));
+            locations.Add(new Location("Krypton", "Shattered planet once belonging to the race known as kryptonians", 111.601, 41.222, 3.0M));
 
             hero = new Player(locations[0]);
         }
@@ -30,13 +30,13 @@ namespace NewSpaceGame
         }
         private QuitReason EventLoop()
         {
-            var quitReason = QuitReason.DontQuit;
+            QuitReason quitReason;
 
             do
             {
                 Console.Clear();
                 //Print the current location
-                Console.WriteLine($"Location: {hero.location.name}\t\tAge: {hero.age:f2} years\n");
+                Console.WriteLine($"Location: {hero.location.name}    Age: {hero.age:f2} years    Credits: {hero.money:f1}\n");
 
                 //Print description
                 Console.WriteLine(hero.location.description);
@@ -44,11 +44,8 @@ namespace NewSpaceGame
                 //Provide options to the user reagarding things they can do
                 PrintOptionlist();
 
-                var key = UI.ElicitInput();
-                quitReason = HandleInput(key);
-
-                quitReason = ShouldQuit(quitReason);
-
+                var key = UI.ElicitInput(" ");
+                quitReason = ShouldQuit(HandleInput(key));
             } while (quitReason == QuitReason.DontQuit);
 
             return quitReason;
@@ -142,7 +139,7 @@ namespace NewSpaceGame
 
                 var distance = hero.location.DistanceTo(destination);
 
-                Console.Write($"{i + 1}. ");
+                Console.Write($" - ");
 
                 if (i == selector)
                 {

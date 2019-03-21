@@ -10,12 +10,15 @@ namespace NewSpaceGame
         double xPos;
         double yPos;
 
-        public Location(string name, string description, double xPos, double yPos)
+        decimal tradeRate;
+
+        public Location(string name, string description, double xPos, double yPos, decimal tradeRate = 1.0M)
         {
             this.name        = name;
             this.description = description;
             this.xPos        = xPos;
             this.yPos        = yPos;
+            this.tradeRate   = tradeRate;
         }
 
         public double DistanceTo(Location destination)
@@ -25,5 +28,7 @@ namespace NewSpaceGame
 
             return Math.Sqrt(left + right);
         }
+        public decimal CostOf(Item item) =>
+            item.cost * tradeRate;
     }
 }
