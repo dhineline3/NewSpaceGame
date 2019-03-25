@@ -19,7 +19,16 @@ namespace NewSpaceGame
             events = new Events(random);
 
             //List of all possible items available for purchase.
-            var beer = new Item("Space Beer", 1.2M);
+            var water = new Item("Bottle of water", 1.0M);
+            var food = new Item("Packaged Food", 0.5M);
+            var alcohol = new Item("Alcohol", 3.0M);
+            var clothing = new Item("Clothing", 5.0M);
+            var electronics = new Item("Electronics", 10M);
+            var fuel = new Item("Space Ship Fuel", 12M);
+            var robots = new Item("Robotic Equipment", 15M);
+            var oxygen = new Item("Liquid Oxygen", 20M);
+            var energyCrystal = new Item("Energy Crystal - extremely rare substance found in far away lands", 200M);
+            
 
             //Different locations with corresponding items available for purchase.
             locations.Add(new Location("Earth",
@@ -27,31 +36,31 @@ namespace NewSpaceGame
                 "The birthplace of mankind, now deserted\n",
                 0, 0,            //Distance
                                  //Price multiplier here is 1
-                new List<Item>() { beer, })); //Items available to purchase on this system
+                new List<Item>() { water, food, alcohol, clothing, electronics, fuel, robots, oxygen })); //Items available to purchase on this system
             locations.Add(new Location("Alpha Centauri 3",
                 "The new home world of the human race, such as it is.",
                 0, 4.367,                        
-                new List<Item>() { beer, },
+                new List<Item>() { water, food, clothing, electronics, robots, oxygen },
                 0.9M));          //Price multiplier in relation to earth (1)
             locations.Add(new Location("Gazorpazorp",
                 "The planet of I don't need no man.",
                 5.294, 12.004,                               
-                new List<Item>() { beer, },
+                new List<Item>() { water, food, oxygen},
                 1.7M));
             locations.Add(new Location("Reach",
                 "Beautiful vacation location and hotspot for glassing.",
                 17.250, 34.103,                              
-                new List<Item>() { beer, },
+                new List<Item>() { water, food, alcohol, clothing, robots, oxygen },
                 1.4M));
             locations.Add(new Location("Pandora",
                 "Dangerous crime planet with no rules. Home of the vault hunters.",
                 2.140, 9.726,                                
-                new List<Item>() { beer, },
+                new List<Item>() { water, food, alcohol, clothing, electronics },
                 1.3M));
             locations.Add(new Location("Krypton",
                 "Shattered planet once belonging to the race known as kryptonians",
                 111.601, 41.222,                               
-                new List<Item>() { beer, },
+                new List<Item>() { robots, energyCrystal },
                 3.0M));
 
             hero = new Player(locations[0]);
@@ -226,7 +235,7 @@ namespace NewSpaceGame
                         done = true;
                         var warpSpeed = UI.ElicitInput("At what warp speed would you like to travel? ", 0.0, 9.5);
 
-                        if (random.Next(0, 3) == 0)
+                        if (random.Next(0, 7) == 0)
                         {
                             events.SelectEvent().Present(hero);
                         }

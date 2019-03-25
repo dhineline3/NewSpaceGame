@@ -6,22 +6,65 @@ namespace NewSpaceGame
     {
         public static void Intro()
         {
-            string prompt = "Press any key to continue...";
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            //Main Title
+            Console.WriteLine(@"
+                                                    ███████╗ ██████╗ ██╗         ████████╗██████╗  █████╗ ██████╗ ███████╗██████╗                         ^
+                                                    ██╔════╝██╔═══██╗██║         ╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗                      /SSS\
+                                                    ███████╗██║   ██║██║            ██║   ██████╔╝███████║██║  ██║█████╗  ██████╔╝                     |SPACE|
+                                                    ╚════██║██║   ██║██║            ██║   ██╔══██╗██╔══██║██║  ██║██╔══╝  ██╔══██╗                     |SPACE|
+                                                    ███████║╚██████╔╝███████╗       ██║   ██║  ██║██║  ██║██████╔╝███████╗██║  ██║                     |SPACE|
+                                                    ╚══════╝ ╚═════╝ ╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝                     |SPACE|   
+                                                                                                                                                      /|SPACE|\
+                                                                                                                                                     /S |SSS| S\
+                                                                                                                                                    /SS |S S| SS\
+                                                                                                                                                        |S S|
+                                                                                                                                                  ****************
+                                                                                                                                                  ****************
+                                                                                                           ");
 
-            Console.Clear();
-            Console.WriteLine("Welcome to the year 2525 where man is still alive.");
-           UI.ElicitInput(prompt);
+            //Main Title Text Color
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press enter to being your adventure...");
+            Console.ReadKey();
+            string myText = "Welcome to Sol Trader young adventurer!\n\n" +
+            "The year is 2147. Exploring the stars has become a hobby for many as space travel becomes commonplace.\n\n" +
+            "You have just graduated from the stellar business academy with a degree in intergalatic finance! Congratulations!\n" +
+            "Unfortunately your father and only relative has died.\n" +
+            "Fortunately he left you his spaceship! Awesome!\n" +
+            "Unfortunately it isn't in the best shape....but it is fully capable of taking you to the stars!\n\n" +
+            "Will you fulfill your dreams of becoming a space trading mogul?\n" +
+            "Or will you die alone, penniless, drifting through space, living through your dreams in crysosleep?\n\n" +
+            "Choose your path. Your journey begins now!\n\n" +
+            "Press enter to continue...";
+            
 
-            Console.Clear();
-            Console.WriteLine("You're the captain of a space cruiser. It's slow and honestly a piece of junk by today's standards" +
-                " but it is fully \ncapable of taking you to the stars!");
-            UI.ElicitInput(prompt);
+            //Loop that makes main title text write out like a typewriter
+            for (int i = 0; i < myText.Length; i++)
+            {
+                Console.Write(myText[i]);
+                System.Threading.
+                Thread.Sleep(5);
+            }
 
-            Console.Clear();
-            Console.WriteLine("Make as much money as you can in you set 70 year lifespan");
-            UI.ElicitInput(prompt);
+            //Clearing the prior specific line
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            ClearCurrentConsoleLine();
+
+            //Method to set up way to clear lines 
+            void ClearCurrentConsoleLine()
+            {
+                int currentLineCursor = Console.CursorTop;
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, currentLineCursor);
+            }
+            Console.ReadKey();
 
         }
+
+        //Ask player for a name and save it
+
 
         public static void ClosingMessage(QuitReason quitReason)
         {
